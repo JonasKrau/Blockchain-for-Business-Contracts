@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, filedialog
 
@@ -24,6 +25,15 @@ def submit_text():
 
     # Hier könntest du den Vertrag mit den privaten Schlüsseln weiterverarbeiten oder anzeigen
     label.config(text="Eingegebener Vertrag:\n" + contract_data)
+
+    # Vertrag in Data speichern
+    data_directory = "Data"
+    if not os.path.exists(data_directory):
+        os.makedirs(data_directory)
+
+    contract_filename = os.path.join(data_directory, 'contract.txt')
+    with open(contract_filename, 'w', encoding='utf-8') as contract_file:
+        contract_file.write(contract_data)
 
 # Hauptfenster erstellen
 root = tk.Tk()
