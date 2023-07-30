@@ -27,13 +27,25 @@ def submit_text():
     label.config(text="Eingegebener Vertrag:\n" + contract_data)
 
     # Vertrag in Data speichern
-    data_directory = "Data"
+    data_directory = "Data/Contract"
     if not os.path.exists(data_directory):
         os.makedirs(data_directory)
 
     contract_filename = os.path.join(data_directory, 'contract.txt')
     with open(contract_filename, 'w', encoding='utf-8') as contract_file:
         contract_file.write(contract_data)
+
+    # Private Keys in Datei speichern
+    keys_directory = "Data/PrivateKeys"
+    if not os.path.exists(keys_directory):
+        os.makedirs(keys_directory)
+
+    keys_filename = os.path.join(keys_directory, 'PrivateKeys.txt')
+    with open(keys_filename, 'w', encoding='utf-8') as keys_file:
+        keys_file.write(private_key_1 + "\n\n" + private_key_2)  # Hier werden die beiden privaten Schlüssel mit einem Zeilenumbruch getrennt
+
+     
+        
 
 # Hauptfenster erstellen
 root = tk.Tk()
