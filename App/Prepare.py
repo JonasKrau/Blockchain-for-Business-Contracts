@@ -3,9 +3,19 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import padding as sym_padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+
+
+
 
 
 def sign_contract():
+    """
+    Get Signature (signed by both parties) for Contract and return it
+    """
+    
     # Contract aus Datei laden
     contract_path = "Data/Contract/contract.txt"
     if not os.path.exists(contract_path):
@@ -51,5 +61,48 @@ def sign_contract():
 
     # Die finale Signatur ausgeben)
     
-    #return signature.hex()
-    print(signature.hex())
+    return signature
+    #print(signature.hex())
+
+
+def generate_random_symmetric_key():
+    """
+    Generate random symmetric key and return it
+    """    
+    key_length = 32  # 32 Bytes (256-Bit)
+    random_key = os.urandom(key_length)
+    return random_key
+
+
+
+def encrypt_signature_with_symmetric_key():
+    signature_bytes = sign_contract()
+    symmetric_key_bytes = generate_random_symmetric_key()
+
+
+    # AES-256-CBC-Verschlüsselung
+    iv = os.urandom(16)  # Initialisierungsvektor mit 16 Bytes (AES-256-CBC benötigt 16-Byte-IV)
+    cipher = Cipher(algorithms.AES(symmetric_key_bytes), modes.CBC(iv))
+    encryptor = cipher.encryptor()
+
+    # Die Signatur verschlüsseln und das Ergebnis zurückgeben
+    padder = sym_padding.PKCS7(algorithms.AES.block_size).padder()
+    padded_signature = padder.update(signature_bytes) + padder.finalize()
+    encrypted_signature = encryptor.update(padded_signature) + encryptor.finalize()
+    
+    # Symmetrischen Schlüssel und verschlüsselte Signatur in der GUI anzeigen
+    encrypted_signature_hex = encrypted_signature.hex()
+    symmetric_key_bytes_hex = symmetric_key_bytes.hex()
+
+    print(encrypted_signature_hex)
+    print('\n')
+    print(symmetric_key_bytes_hex)
+
+    
+
+
+encrypt_signature_with_symmetric_key()
+
+
+
+

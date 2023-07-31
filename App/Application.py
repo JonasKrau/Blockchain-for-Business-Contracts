@@ -139,7 +139,7 @@ file_button.pack(pady=(100,10))
 #final_signature_label.pack(pady=20)
 
 # Button erstellen
-submit_button = ttk.Button(root, text="Sign Contract", command=Prepare.sign_contract)
+submit_button = ttk.Button(root, text="Sign Contract", command=Prepare.encrypt_signature_with_symmetric_key)
 submit_button.pack(pady=10)
 
 # Label erstellen, um den eingegebenen Text als Vertrag anzuzeigen
