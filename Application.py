@@ -1,6 +1,8 @@
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog
+import Prepare
+
 
 def toggle_show_hide(entry_widget, lock_button):
     if entry_widget.cget("show") == "":
@@ -9,6 +11,9 @@ def toggle_show_hide(entry_widget, lock_button):
     else:
         entry_widget.configure(show="")
         lock_button.config(text="Hide/Show")
+
+
+
 
 def submit_text():
     # Vertrag aus Datei laden
@@ -56,6 +61,16 @@ def submit_text():
     public_keys_filename = os.path.join(public_keys_directory, 'PublicKeys.txt')
     with open(public_keys_filename, 'w', encoding='utf-8') as public_keys_file:
         public_keys_file.write(public_key_1 + "\n\n" + public_key_2)  # Hier werden die beiden öffentlichen Schlüssel mit zwei Leerzeilen getrennt
+
+
+
+
+
+
+
+
+
+
 
 # Hauptfenster erstellen
 root = tk.Tk()
@@ -119,8 +134,12 @@ public_key_entry_2.pack(pady=5)
 file_button = ttk.Button(root, text="Select Contract", command=submit_text)
 file_button.pack(pady=(100,10))
 
+# Label erstellen, um die finale Signatur anzuzeigen
+final_signature_label = ttk.Label(root, text="", font=('Helvetica', 14))
+final_signature_label.pack(pady=20)
+
 # Button erstellen
-submit_button = ttk.Button(root, text="Sign Contract", command=submit_text)
+submit_button = ttk.Button(root, text="Sign Contract", command=Prepare.sign_contract)
 submit_button.pack(pady=10)
 
 # Label erstellen, um den eingegebenen Text als Vertrag anzuzeigen
