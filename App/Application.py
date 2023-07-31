@@ -7,10 +7,10 @@ import Prepare
 def toggle_show_hide(entry_widget, lock_button):
     if entry_widget.cget("show") == "":
         entry_widget.configure(show="*")
-        lock_button.config(text="Hide/Show")
+        lock_button.config(state="disabled")  # Deaktiviert den "Show"-Button
     else:
         entry_widget.configure(show="")
-        lock_button.config(text="Hide/Show")
+        lock_button.config(state="disabled")  # Deaktiviert den "Hide"-Button nach dem Anzeigen des Textes
 
 
 
@@ -135,8 +135,8 @@ file_button = ttk.Button(root, text="Select Contract", command=submit_text)
 file_button.pack(pady=(100,10))
 
 # Label erstellen, um die finale Signatur anzuzeigen
-final_signature_label = ttk.Label(root, text="", font=('Helvetica', 14))
-final_signature_label.pack(pady=20)
+#final_signature_label = ttk.Label(root, text="", font=('Helvetica', 14))
+#final_signature_label.pack(pady=20)
 
 # Button erstellen
 submit_button = ttk.Button(root, text="Sign Contract", command=Prepare.sign_contract)
