@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+import WriteBlockchain
+
 
 
 def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2):
@@ -56,13 +58,13 @@ def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2
 
 
     # Button zum Speichern in die Blockchain
-    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain")
+    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(encrypted_signature_hex, pubkey1, pubkey2))
     write_to_blockchain_button.pack(pady=10)
 
-  
+    
     
     # Beschreibung des Buttons als kleines Label
-    description_label = tk.Label(result_window, text="By pressing this button, the two public keys and the contract (signed and encrypted) are stored in the blockchain.", font=("Helvetica", 12))
+    description_label = tk.Label(result_window, text="By pressing this button, the two public keys and the contract (signed and encrypted) are stored in the blockchain. ", font=("Helvetica", 12))
     description_label.pack(pady=(1, 20))
 
   
