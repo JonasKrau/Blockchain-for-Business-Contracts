@@ -62,7 +62,7 @@ def submit_text():
     with open(public_keys_filename, 'w', encoding='utf-8') as public_keys_file:
         public_keys_file.write(public_key_1 + "\n\n" + public_key_2)  # Hier werden die beiden öffentlichen Schlüssel mit zwei Leerzeilen getrennt
 
-
+     
 
 
 
@@ -134,15 +134,17 @@ public_key_entry_2.pack(pady=5)
 file_button = ttk.Button(root, text="Select Contract", command=submit_text)
 file_button.pack(pady=(100,10))
 
-# Label erstellen, um die finale Signatur anzuzeigen
+#Label erstellen, um die finale Signatur anzuzeigen
 #final_signature_label = ttk.Label(root, text="", font=('Helvetica', 14))
 #final_signature_label.pack(pady=20)
 
+
 # Button erstellen
-submit_button = ttk.Button(root, text="Sign Contract", command=Prepare.encrypt_signature_with_symmetric_key)
+submit_button = ttk.Button(root, text="Sign & Encrypt Contract", command=Prepare.encrypt_signature_with_symmetric_key)
 submit_button.pack(pady=10)
 
-# Label erstellen, um den eingegebenen Text als Vertrag anzuzeigen
+
+#Label erstellen, um den eingegebenen Text als Vertrag anzuzeigen
 #label = ttk.Label(root, text="", anchor='w')
 #label.pack(pady=20)
 

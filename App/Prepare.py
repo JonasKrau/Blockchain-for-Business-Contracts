@@ -1,4 +1,6 @@
 import os
+import os
+from DisplayResults import display_results
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -94,14 +96,50 @@ def encrypt_signature_with_symmetric_key():
     encrypted_signature_hex = encrypted_signature.hex()
     symmetric_key_bytes_hex = symmetric_key_bytes.hex()
 
-    print(encrypted_signature_hex)
-    print('\n')
-    print(symmetric_key_bytes_hex)
+    relevant_bc_data(symmetric_key_bytes_hex, encrypted_signature_hex)
 
     
 
+def read_public_keys(file_path):
+    """
+    Read public keys from the specified file and return a list of public keys.
+    Each public key in the list is a string containing the key in PEM format.
+    """
+    public_keys = []
 
-encrypt_signature_with_symmetric_key()
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            key_data = file.read()
+            key_blocks = key_data.split("-----END PUBLIC KEY-----\n")
+            for index, key_block in enumerate(key_blocks):
+                if "-----BEGIN PUBLIC KEY-----" in key_block:
+                    if index == 1:  # Remove last "-----END PUBLIC KEY-----" only for the second key
+                        public_key = key_block + "\n"
+                    else:
+                        public_key = key_block + "-----END PUBLIC KEY-----\n"
+                    public_keys.append(public_key)
+    except IOError as e:
+        print(f"Error reading public keys: {e}")
+
+    return public_keys
+
+
+def relevant_bc_data(symmetric_key_bytes_hex, encrypted_signature_hex):
+    # Pfade zur Datei mit den öffentlichen Schlüsseln
+    public_keys_file_path = "Data/PublicKeys/PublicKeys.txt"
+
+    # Öffentliche Schlüssel aus der Datei laden
+    public_keys = read_public_keys(public_keys_file_path)
+
+    # Hier könntest du weitere Verarbeitungsschritte mit den öffentlichen Schlüsseln durchführen,
+    # je nachdem, wie du sie verwenden möchtest.
+    # In diesem Beispiel gehe ich davon aus, dass die ersten beiden Schlüssel in der Liste relevant sind.
+    pubkey1 = public_keys[0] if len(public_keys) > 0 else ""
+    pubkey2 = public_keys[1] if len(public_keys) > 1 else ""
+
+        
+    # Ergebnisse anzeigen
+    display_results(symmetric_key_bytes_hex, encrypted_signature_hex, pubkey1, pubkey2)
 
 
 
