@@ -76,7 +76,7 @@ def submit_text():
 root = tk.Tk()
 root.option_add('*Font', 'Helvetica 20 bold')
 
-root.title("Blockchain for Business Contracts")
+root.title("Blockchain for Business Contracts: Start")
 
 # Farben definieren
 bg_color = '#f9f9f9'  # Hintergrundfarbe
