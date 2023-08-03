@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import WriteBlockchain
+import uuid
 
 
 
@@ -8,6 +9,18 @@ def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2
     # Neues Fenster erstellen
     result_window = tk.Toplevel()
     result_window.title("Blockchain for Business-Contracts: Results")
+
+    # UUID generieren
+    contract_id = str(uuid.uuid4())
+
+    #Text-Widget für die UUID erstellen
+    uuid_text = tk.Text(result_window, wrap=tk.NONE, height=1, padx=5, pady=5)
+    uuid_text.insert("1.0", "Contract ID: " + contract_id)
+    uuid_text.pack(pady=5)
+
+    # Beschreibung der UUID
+    uuid_description = tk.Label(result_window, text="This is the unique identifier for the contract.", font=("Helvetica", 12))
+    uuid_description.pack(pady=(0, 20))
 
     # Text-Widget für symmetrischen Schlüssel erstellen
     symmetric_key_text = tk.Text(result_window, wrap=tk.NONE, height=1, padx=5, pady=5)
@@ -58,7 +71,7 @@ def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2
 
 
     # Button zum Speichern in die Blockchain
-    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(encrypted_signature_hex, pubkey1, pubkey2))
+    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(uuid_text, encrypted_signature_hex, pubkey1, pubkey2))
     write_to_blockchain_button.pack(pady=10)
 
     
