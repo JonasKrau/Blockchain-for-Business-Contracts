@@ -45,18 +45,13 @@ def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2
     pubkey1_text.insert("1.0", "Public Key 1:\n" + pubkey1)
     pubkey1_text.pack(pady=5)
 
-    # Beschreibung von öffentlichem Schlüssel 2
-    pubkey1_description = tk.Label(result_window, text="This is the public key of contract party 1.", font=("Helvetica", 12))
-    pubkey1_description.pack(pady=(0, 20))
-
+    
     # Text-Widget für öffentliche Schlüssel 2 erstellen
     pubkey2_text = tk.Text(result_window, wrap=tk.NONE, height=8, padx=5, pady=5)
     pubkey2_text.insert("1.0", "Public Key 2:" + pubkey2)
     pubkey2_text.pack(pady=5)
 
-    #Beschreibung von öffentlichem Schlüssel 2
-    pubkey2_description = tk.Label(result_window, text="This is the public key of contract party 2.", font=("Helvetica", 12))
-    pubkey2_description.pack(pady=(0, 20))
+    
 
     # Funktion zum Markieren und Kopieren des Textes
     def select_text(event):
@@ -71,7 +66,7 @@ def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2
 
 
     # Button zum Speichern in die Blockchain
-    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(uuid_text, encrypted_signature_hex, pubkey1, pubkey2))
+    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2))
     write_to_blockchain_button.pack(pady=10)
 
     
