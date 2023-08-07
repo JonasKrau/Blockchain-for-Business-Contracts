@@ -32,6 +32,10 @@ def submit_text():
     public_key_1 = public_key_entry_1.get()
     public_key_2 = public_key_entry_2.get()
 
+    wallet_address = wallet_address_entry.get()
+    wallet_private_key = wallet_private_key_entry.get()
+    
+
     # Hier könntest du den Vertrag mit den privaten und öffentlichen Schlüsseln weiterverarbeiten oder anzeigen
     #label.config(text="Contract:\n" + contract_data)
 
@@ -63,7 +67,19 @@ def submit_text():
         public_keys_file.write(public_key_1 + "\n\n" + public_key_2)  # Hier werden die beiden öffentlichen Schlüssel mit zwei Leerzeilen getrennt
 
      
+    # Wallet-Adresse in Datei speichern
+    wallet_directory = "Data/Wallet"
+    if not os.path.exists(wallet_directory):
+        os.makedirs(wallet_directory)
 
+    wallet_filename = os.path.join(wallet_directory, 'WalletAddress.txt')
+    with open(wallet_filename, 'w', encoding='utf-8') as wallet_file:
+        wallet_file.write(wallet_address)
+
+    #Privater Schlüssel der Wallet-Adresse in Datei speichern
+    wallet_private_key_filename = os.path.join(wallet_directory, 'WalletPrivateKey.txt')
+    with open(wallet_private_key_filename, 'w', encoding='utf-8') as wallet_private_key_file:
+        wallet_private_key_file.write(wallet_private_key)
 
 
 
@@ -112,7 +128,7 @@ public_key_entry_1.pack(pady=10)
 
 # Label für private Schlüssel der Vertragspartei 2
 private_key_label_2 = ttk.Label(root, text="Private Key (Party 2):")
-private_key_label_2.pack(pady=(150,10))
+private_key_label_2.pack(pady=(40,10))
 
 # Eingabefeld für privaten Schlüssel der Vertragspartei 2
 private_key_entry_2 = ttk.Entry(root)
@@ -130,23 +146,38 @@ public_key_label_2.pack(pady=(40, 10))
 public_key_entry_2 = ttk.Entry(root)
 public_key_entry_2.pack(pady=5)
 
+# Label für Wallet-Adresse
+wallet_address_label = ttk.Label(root, text="Wallet Address:")
+wallet_address_label.pack(pady=(40, 10))
+
+# Eingabefeld für Wallet-Adresse
+wallet_address_entry = ttk.Entry(root)
+wallet_address_entry.pack(pady=5)
+
+# Label für privaten Schlüssel der Wallet-Adresse
+wallet_private_key_label = ttk.Label(root, text="Private Key for Wallet Address:")
+wallet_private_key_label.pack(pady=(40, 10))
+
+# Eingabefeld für privaten Schlüssel der Wallet-Adresse
+wallet_private_key_entry = ttk.Entry(root)
+wallet_private_key_entry.pack(pady=5)
+
+# Lock-Button für privaten Schlüssel der Wallet-Adresse
+wallet_lock_button = ttk.Button(root, text="Hide", command=lambda: toggle_show_hide(wallet_private_key_entry, wallet_lock_button))
+wallet_lock_button.pack()
+
+
+
 # Eingabefeld für Dateiauswahl erstellen
 file_button = ttk.Button(root, text="Select Contract", command=submit_text)
-file_button.pack(pady=(100,10))
+file_button.pack(pady=(40,10))
 
-#Label erstellen, um die finale Signatur anzuzeigen
-#final_signature_label = ttk.Label(root, text="", font=('Helvetica', 14))
-#final_signature_label.pack(pady=20)
 
 
 # Button erstellen
 submit_button = ttk.Button(root, text="Sign & Encrypt Contract", command=Prepare.encrypt_signature_with_symmetric_key)
 submit_button.pack(pady=10)
 
-
-#Label erstellen, um den eingegebenen Text als Vertrag anzuzeigen
-#label = ttk.Label(root, text="", anchor='w')
-#label.pack(pady=20)
 
 # Schleife zum Ausführen des Fensters
 root.mainloop()

@@ -1,11 +1,59 @@
 from web3 import Web3
 import time
+import os
+
+def get_wallet_address():
+    #WalletAddresse aus Datei laden
+    wallet_address_path = "Data/Wallet/WalletAddress.txt"
+    if not os.path.exists(wallet_address_path):
+        print("Contract not found.")
+        return
+
+    with open(wallet_address_path, 'r', encoding='utf-8') as address_file:
+        address_file = address_file.read()
+
+    return address_file
+
+
+def get_wallet_private_key():
+    #WalletPrivateKey aus Datei laden
+    wallet_key_path = "Data/Wallet/WalletPrivateKey.txt"
+    if not os.path.exists(wallet_key_path):
+        print("Contract not found.")
+        return
+
+    with open(wallet_key_path, 'r', encoding='utf-8') as contract_file:
+        contract_data = contract_file.read()
+
+    return contract_data
+
+
+
+def delete_files():
+    #Hier werden die ganzen/gehimen Daten gelöscht
+    files_to_delete = [
+        "Data/Contract/contract.txt",
+        "Data/PrivateKeys/PrivateKeys.txt",
+        "Data/PublicKeys/PublicKeys.txt",
+        "Data/Wallet/WalletAddress.txt",
+        "Data/Wallet/WalletPrivateKey.txt",
+    ]
+    
+    for file_path in files_to_delete:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"File {file_path} has been deleted.")
+        else:
+            print(f"File {file_path} does not exist.")
+
+
+
 
 def write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2):
     web3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/0b9f3b7753854e3482962cf27f6aa40c'))
 
-    address = '..........' #Walletaddress (muss in DisplayResults in GUI eingegeben werde!!!)
-    private_key = '.........' #Private Key from Contract (muss in DisplayResults in GUI eingegeben werde!!!)
+    address = get_wallet_address()
+    private_key = get_wallet_private_key()
     contract_address = '0xC5fb728194F843061479ddFDe12106A667052a1e'
     contract_abi = [{"inputs":[{"internalType":"string","name":"contractId","type":"string"},{"internalType":"string","name":"encryptedSignature","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"}],"name":"storeContract","outputs":[],"stateMutability":"nonpayable","type":"function"}]
 
@@ -45,3 +93,6 @@ def write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2):
         print(end-start)
     else:
         print("Failed to write")
+
+    delete_files()
+
