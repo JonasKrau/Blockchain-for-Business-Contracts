@@ -53,10 +53,99 @@ def write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2):
     web3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/0b9f3b7753854e3482962cf27f6aa40c'))
 
     address = get_wallet_address()
+    address = Web3.to_checksum_address(address)
     private_key = get_wallet_private_key()
     contract_address = '0xC5fb728194F843061479ddFDe12106A667052a1e'
-    contract_abi = [{"inputs":[{"internalType":"string","name":"contractId","type":"string"},{"internalType":"string","name":"encryptedSignature","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"}],"name":"storeContract","outputs":[],"stateMutability":"nonpayable","type":"function"}]
-
+    contract_abi = [
+	{
+		"anonymous": False,
+		"inputs": [
+			{
+				"indexed": False,
+				"internalType": "string",
+				"name": "contractId",
+				"type": "string"
+			},
+			{
+				"indexed": False,
+				"internalType": "string",
+				"name": "encryptedSignature",
+				"type": "string"
+			},
+			{
+				"indexed": False,
+				"internalType": "string",
+				"name": "pubkey1",
+				"type": "string"
+			},
+			{
+				"indexed": False,
+				"internalType": "string",
+				"name": "pubkey2",
+				"type": "string"
+			}
+		],
+		"name": "ContractStored",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "contractId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "encryptedSignature",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pubkey1",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pubkey2",
+				"type": "string"
+			}
+		],
+		"name": "storeContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "contractId",
+				"type": "string"
+			}
+		],
+		"name": "getContract",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "encryptedSignature",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pubkey1",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pubkey2",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
     contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
     nonce = web3.eth.get_transaction_count(address)
@@ -95,4 +184,3 @@ def write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2):
         print("Failed to write")
 
     delete_files()
-
