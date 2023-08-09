@@ -55,7 +55,7 @@ def write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2):
     address = get_wallet_address()
     address = Web3.to_checksum_address(address)
     private_key = get_wallet_private_key()
-    contract_address = '0xC5fb728194F843061479ddFDe12106A667052a1e'
+    contract_address = '0x9762417DC27F8a20EcdB350A22DD50b5e6E3644E' #Contract oder Walletadresse!!!!!!!!!!!!!!!!?????????????????
     contract_abi = [
 	{
 		"anonymous": False,
