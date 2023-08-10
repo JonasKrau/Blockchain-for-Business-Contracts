@@ -1,5 +1,6 @@
 import uuid
 import tkinter as tk
+import WriteBlockchain
 
 
 def display_results(sym_key_hex, encrypted_contract, sig1, sig2, pubkey1, pubkey2):
@@ -10,13 +11,13 @@ def display_results(sym_key_hex, encrypted_contract, sig1, sig2, pubkey1, pubkey
     root.title('Results')
 
     # Erstellen Sie eine UUID
-    generated_uuid = uuid.uuid4()
+    contract_id = uuid.uuid4()
 
     # Widgets für die Anzeige von UUID, sym_key_hex und encrypted_contract
     label1 = tk.Label(root, text="Contract-ID:")
     label1.pack()
     text1 = tk.Text(root, height=1, width=40)
-    text1.insert(tk.END, str(generated_uuid))
+    text1.insert(tk.END, str(contract_id))
     text1.pack()
 
     label2 = tk.Label(root, text="Symmetric Key:")
@@ -36,7 +37,7 @@ def display_results(sym_key_hex, encrypted_contract, sig1, sig2, pubkey1, pubkey
     text3.pack()
 
     # Button, um Daten in der Ethereum Sepolia Blockchain zu speichern
-    store_button = tk.Button(root, text="Store in Sepolia Blockchain")
+    store_button = tk.Button(root, text="Store in Sepolia Blockchain", command=lambda:WriteBlockchain.write_in_Blockchain(str(contract_id), encrypted_contract, sig1, sig2, pubkey1, pubkey2 ))
     store_button.pack(pady=(100,5))
 
     # Beschreibender Text für den Speicherungsprozess
