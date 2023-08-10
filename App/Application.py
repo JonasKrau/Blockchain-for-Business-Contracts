@@ -175,7 +175,7 @@ file_button.pack(pady=(40,10))
 
 
 # Button erstellen
-submit_button = ttk.Button(root, text="Sign & Encrypt Contract", command=Prepare.encrypt_signature_with_symmetric_key)
+submit_button = ttk.Button(root, text="Sign & Encrypt Contract", command=Prepare.order_data)
 submit_button.pack(pady=10)
 
 

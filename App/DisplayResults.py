@@ -1,80 +1,47 @@
-import tkinter as tk
-from tkinter import ttk
-import WriteBlockchain
 import uuid
+import tkinter as tk
 
 
+def display_results(sym_key_hex, encrypted_contract, sig1, sig2, pubkey1, pubkey2):
 
-def display_results(symmetric_key_hex, encrypted_signature_hex, pubkey1, pubkey2):
-    # Neues Fenster erstellen
-    result_window = tk.Toplevel()
-    result_window.title("Blockchain for Business-Contracts: Results")
+    # Erstellen Sie ein Fenster mit Tkinter
+    root = tk.Tk()
+    root.option_add('*Font', 'Helvetica 20 bold')
+    root.title('Results')
 
-    # UUID generieren
-    contract_id = str(uuid.uuid4())
+    # Erstellen Sie eine UUID
+    generated_uuid = uuid.uuid4()
 
-    #Text-Widget für die UUID erstellen
-    uuid_text = tk.Text(result_window, wrap=tk.NONE, height=1, padx=5, pady=5)
-    uuid_text.insert("1.0", "Contract ID: " + contract_id)
-    uuid_text.pack(pady=5)
+    # Widgets für die Anzeige von UUID, sym_key_hex und encrypted_contract
+    label1 = tk.Label(root, text="Contract-ID:")
+    label1.pack()
+    text1 = tk.Text(root, height=1, width=40)
+    text1.insert(tk.END, str(generated_uuid))
+    text1.pack()
 
-    # Beschreibung der UUID
-    uuid_description = tk.Label(result_window, text="This is the unique identifier for the contract.", font=("Helvetica", 12))
-    uuid_description.pack(pady=(0, 20))
+    label2 = tk.Label(root, text="Symmetric Key:")
+    label2.pack(pady=(20,1))
+    text2 = tk.Text(root, height=1, width=60)
+    text2.insert(tk.END, sym_key_hex)
+    text2.pack()
 
-    # Text-Widget für symmetrischen Schlüssel erstellen
-    symmetric_key_text = tk.Text(result_window, wrap=tk.NONE, height=1, padx=5, pady=5)
-    symmetric_key_text.insert("1.0", "Symmetric Key: " + symmetric_key_hex)
-    symmetric_key_text.pack(pady=5)
+    # Zusätzliche Beschriftung für den symmetrischen Schlüssel
+    warning_label = tk.Label(root, text="Store the key at a safe place!", fg="red")
+    warning_label.pack()
 
-    # Beschreibung des symmetrischen Schlüssels
-    symmetric_key_description = tk.Label(result_window, text="This is the randomly generated symmetric key. Keep it safe!", font=("Helvetica", 12))
-    symmetric_key_description.pack(pady=(0, 20))
+    label3 = tk.Label(root, text="Encrypted Contract:")
+    label3.pack(pady=(20,1))
+    text3 = tk.Text(root, height=4, width=60)
+    text3.insert(tk.END, encrypted_contract)
+    text3.pack()
 
-    # Text-Widget für verschlüsselte Signatur erstellen
-    encrypted_signature_text = tk.Text(result_window, wrap=tk.NONE, height=1, padx=5, pady=5)
-    encrypted_signature_text.insert("1.0", "Signed and Encrypted Contract: " + encrypted_signature_hex)
-    encrypted_signature_text.pack(pady=5)
+    # Button, um Daten in der Ethereum Sepolia Blockchain zu speichern
+    store_button = tk.Button(root, text="Store in Sepolia Blockchain")
+    store_button.pack(pady=(100,5))
 
-    # Beschreibung der verschlüsselten Signatur
-    encrypted_signature_description = tk.Label(result_window, text="The contract was signed with both private keys and then encrypted with the randomly generated symmetric key. First party 1 has signed, then party 2.", font=("Helvetica", 12))
-    encrypted_signature_description.pack(pady=(0, 20))
+    # Beschreibender Text für den Speicherungsprozess
+    description_label = tk.Label(root, text="When pressing the button, the contract ID, the encrypted contract, the two signatures and the two entered public keys are stored in the Ethereum Sepolia Blockchain.", wraplength=600, fg="red")
+    description_label.pack(pady=(5,20))
 
-    # Text-Widget für öffentliche Schlüssel 1 erstellen
-    pubkey1_text = tk.Text(result_window, wrap=tk.NONE, height=8, padx=5, pady=5)
-    pubkey1_text.insert("1.0", "Public Key 1:\n" + pubkey1)
-    pubkey1_text.pack(pady=5)
-
-    
-    # Text-Widget für öffentliche Schlüssel 2 erstellen
-    pubkey2_text = tk.Text(result_window, wrap=tk.NONE, height=8, padx=5, pady=5)
-    pubkey2_text.insert("1.0", "Public Key 2:" + pubkey2)
-    pubkey2_text.pack(pady=5)
-
-    
-
-    # Funktion zum Markieren und Kopieren des Textes
-    def select_text(event):
-        event.widget.tag_add("sel", "1.0", "end")
-
-    symmetric_key_text.bind("<Control-a>", select_text)
-    encrypted_signature_text.bind("<Control-a>", select_text)
-    pubkey1_text.bind("<Control-a>", select_text)
-    pubkey2_text.bind("<Control-a>", select_text)
-
-
-
-
-    # Button zum Speichern in die Blockchain
-    write_to_blockchain_button = ttk.Button(result_window, text="Write in to Blockchain", command=lambda: WriteBlockchain.write_in_Blockchain(contract_id, encrypted_signature_hex, pubkey1, pubkey2))
-    write_to_blockchain_button.pack(pady=10)
-
-    
-    
-    # Beschreibung des Buttons als kleines Label
-    description_label = tk.Label(result_window, text="By pressing this button, the two public keys and the contract (signed and encrypted) are stored in the blockchain. ", font=("Helvetica", 12))
-    description_label.pack(pady=(1, 20))
-
-  
-    # Schleife zum Ausführen des Fensters
-    result_window.mainloop()
+    # Starten Sie die Tkinter-Schleife
+    root.mainloop()
