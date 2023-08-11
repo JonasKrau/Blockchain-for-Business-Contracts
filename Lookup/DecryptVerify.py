@@ -3,10 +3,12 @@ from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
 from cryptography.hazmat.backends import default_backend
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding as sym_padding
 
 def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signature2, sym_key):
-    print("Retrieved Contract Data\n")
-    print("--------------------------------------------------------------\n\n\n")
+    print("Retrieved Contract Data")
+    print("---------------------------------------------------------------------------\n\n")
     print("Encrypted Contract:\n", encrypted_contract)
     print("\nPublic Key (Party 1):\n", pubkey1)
     print("Public Key (Party 2):", pubkey2)
@@ -33,9 +35,29 @@ def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signat
             asym_padding.PSS(mgf=asym_padding.MGF1(hashes.SHA256()), salt_length=asym_padding.PSS.MAX_LENGTH),
             hashes.SHA256()
         )
+        print("\n\n\nDecryption and Verification")
+        print("---------------------------------------------------------------------------")
+        print("\nSignature verification successful\n")
 
-        print("\n\nSignature verification successful")
+        # Umwandeln des symmetrischen Schlüssels in bytes
+        symmetric_key_bytes = bytes.fromhex(sym_key)
+
+        # Umwandeln des verschlüsselten Vertrags in bytes
+        encrypted_contract_bytes = bytes.fromhex(encrypted_contract)
+
+        # Cipher-Objekt erstellen (ECB-Modus)
+        cipher = Cipher(algorithms.AES(symmetric_key_bytes), modes.ECB(), backend=default_backend())
+        decryptor = cipher.decryptor()
+
+        # Daten entschlüsseln
+        decrypted_data_padded = decryptor.update(encrypted_contract_bytes) + decryptor.finalize()
+
+        # Entfernen des Paddings (PKCS7)
+        unpadder = sym_padding.PKCS7(128).unpadder()
+        decrypted_data = unpadder.update(decrypted_data_padded) + unpadder.finalize()
+
+        # Decodierte Vertragsdaten ausgeben
+        print("\nDecrypted Contract:\n", decrypted_data.decode('utf-8'))
 
     except InvalidSignature:
         print("Verification failed. The signatures do not match the encrypted contract.")
-
