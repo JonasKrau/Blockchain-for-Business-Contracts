@@ -121,4 +121,4 @@ def write_in_Blockchain(contract_id, encrypted_contract_hex, sig1, sig2, pubkey1
         print("Failed to write")
 
 
-    #delete_files()
+    delete_files()
