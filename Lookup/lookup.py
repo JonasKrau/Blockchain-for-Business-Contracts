@@ -5,18 +5,13 @@ import DecryptVerify
 
 
 def get_contract_data():
-	contract_id = contract_id_entry.get()
-	sym_key = sym_key_entry.get()
-	encrypted_contract, pubkey1, pubkey2, signature1, signature2 = contract.functions.getContract(contract_id).call()
-
-	print(contract_id)
-	print(sym_key)
-	print(encrypted_contract)
-	print(pubkey1)
-	print(pubkey2)
-	print(signature1)
-	print(signature2)
 	
+    contract_id = contract_id_entry.get()
+    sym_key = sym_key_entry.get()
+    encrypted_contract, pubkey1, pubkey2, signature1, signature2 = contract.functions.getContract(contract_id).call()
+
+    DecryptVerify.decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signature2, sym_key)
+
 
 web3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/0b9f3b7753854e3482962cf27f6aa40c'))
 contract_address = '0xFF02dA7f654cd106Be934D2DbBEF888c95176724'
