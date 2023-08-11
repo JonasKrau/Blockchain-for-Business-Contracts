@@ -5,6 +5,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding as sym_padding
+import DisplayAll
 
 def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signature2, sym_key):
     print("Retrieved Contract Data")
@@ -58,6 +59,11 @@ def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signat
 
         # Decodierte Vertragsdaten ausgeben
         print("\nDecrypted Contract:\n", decrypted_data.decode('utf-8'))
+        DisplayAll.display_contract(decrypted_data.decode('utf-8'))
 
     except InvalidSignature:
         print("Verification failed. The signatures do not match the encrypted contract.")
+    
+    
+
+    
