@@ -1,34 +1,41 @@
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding as sym_padding
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
+from cryptography.hazmat.backends import default_backend
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
-def decrypt_contract(encr_sig_hex, sym_key_hex):
-    """
-    entschlüsselt signierten Contract
-    """
-    
-    # Umwandlung von Hex in Bytes
-    encr_sig = bytes.fromhex(encr_sig_hex)
-    sym_key = bytes.fromhex(sym_key_hex)
+def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signature2, sym_key):
+    print("Retrieved Contract Data\n")
+    print("--------------------------------------------------------------\n\n\n")
+    print("Encrypted Contract:\n", encrypted_contract)
+    print("\nPublic Key (Party 1):\n", pubkey1)
+    print("Public Key (Party 2):", pubkey2)
+    print("Signature (Party 1):\n", signature1)
+    print("\nSignature (Party 2):\n", signature2)
 
-    # Initialisierungsvektor (IV) extrahieren
-    iv = encr_sig[:16]
-    encrypted_signature = encr_sig[16:]
+    try:
+        # Lade die öffentlichen Schlüssel
+        public_key1 = load_pem_public_key(pubkey1.encode(), backend=default_backend())
+        public_key2 = load_pem_public_key(pubkey2.encode(), backend=default_backend())
 
-    # AES-256-CBC-Entschlüsselung
-    cipher = Cipher(algorithms.AES(sym_key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
+        # Überprüfe die erste Signatur
+        public_key1.verify(
+            bytes.fromhex(signature1),
+            encrypted_contract.encode('utf-8'),
+            asym_padding.PSS(mgf=asym_padding.MGF1(hashes.SHA256()), salt_length=asym_padding.PSS.MAX_LENGTH),
+            hashes.SHA256()
+        )
 
-    # Entschlüsselung der Signatur
-    decrypted_signature = decryptor.update(encrypted_signature) + decryptor.finalize()
+        # Überprüfe die zweite Signatur
+        public_key2.verify(
+            bytes.fromhex(signature2),
+            encrypted_contract.encode('utf-8'),
+            asym_padding.PSS(mgf=asym_padding.MGF1(hashes.SHA256()), salt_length=asym_padding.PSS.MAX_LENGTH),
+            hashes.SHA256()
+        )
 
-    # Entfernen der Padding
-    unpadder = sym_padding.PKCS7(algorithms.AES.block_size).unpadder()
-    unpadded_signature = unpadder.update(decrypted_signature) + unpadder.finalize()
+        print("\n\nSignature verification successful")
 
-    return unpadded_signature.hex()
-
+    except InvalidSignature:
+        print("Verification failed. The signatures do not match the encrypted contract.")
 
