@@ -2,109 +2,26 @@ from web3 import Web3
 import tkinter as tk
 import DecryptVerify
 
+
+
 def get_contract_data():
 	contract_id = contract_id_entry.get()
 	sym_key = sym_key_entry.get()
-	encrypted_signature, pubkey1, pubkey2 = contract.functions.getContract(contract_id).call()
+	encrypted_contract, pubkey1, pubkey2, signature1, signature2 = contract.functions.getContract(contract_id).call()
 
-	unpadded_signature = DecryptVerify.decrypt_contract(encrypted_signature, sym_key)
-	#verify_auth = DecryptVerify.verify_signatures(unpadded_signature, pubkey1, pubkey2)
+	print(contract_id)
+	print(sym_key)
+	print(encrypted_contract)
+	print(pubkey1)
+	print(pubkey2)
+	print(signature1)
+	print(signature2)
 	
 
 web3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/0b9f3b7753854e3482962cf27f6aa40c'))
-contract_address = '0x9762417DC27F8a20EcdB350A22DD50b5e6E3644E'
+contract_address = '0xFF02dA7f654cd106Be934D2DbBEF888c95176724'
 contract_address = Web3.to_checksum_address(contract_address)
-contract_abi = [
-    {
-        "anonymous": False,
-        "inputs": [
-            {
-                "indexed": False,
-                "internalType": "string",
-                "name": "contractId",
-                "type": "string"
-            },
-            {
-                "indexed": False,
-                "internalType": "string",
-                "name": "encryptedSignature",
-                "type": "string"
-            },
-            {
-                "indexed": False,
-                "internalType": "string",
-                "name": "pubkey1",
-                "type": "string"
-            },
-            {
-                "indexed": False,
-                "internalType": "string",
-                "name": "pubkey2",
-                "type": "string"
-            }
-        ],
-        "name": "ContractStored",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "contractId",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "encryptedSignature",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "pubkey1",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "pubkey2",
-                "type": "string"
-            }
-        ],
-        "name": "storeContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "contractId",
-                "type": "string"
-            }
-        ],
-        "name": "getContract",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "encryptedSignature",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "pubkey1",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "pubkey2",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
-]
-
+contract_abi = [{"anonymous":False,"inputs":[{"indexed":False,"internalType":"string","name":"contractId","type":"string"},{"indexed":False,"internalType":"string","name":"encryptedContract","type":"string"},{"indexed":False,"internalType":"string","name":"pubkey1","type":"string"},{"indexed":False,"internalType":"string","name":"pubkey2","type":"string"},{"indexed":False,"internalType":"string","name":"signature1","type":"string"},{"indexed":False,"internalType":"string","name":"signature2","type":"string"}],"name":"ContractStored","type":"event"},{"inputs":[{"internalType":"string","name":"contractId","type":"string"}],"name":"getContract","outputs":[{"internalType":"string","name":"encryptedContract","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"},{"internalType":"string","name":"signature1","type":"string"},{"internalType":"string","name":"signature2","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"contractId","type":"string"},{"internalType":"string","name":"encryptedContract","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"},{"internalType":"string","name":"signature1","type":"string"},{"internalType":"string","name":"signature2","type":"string"}],"name":"storeContract","outputs":[],"stateMutability":"nonpayable","type":"function"}]
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
 # GUI erstellen
@@ -129,3 +46,7 @@ get_contract_data_button = tk.Button(root, text="Get Contract Data", command=get
 get_contract_data_button.pack()
 
 root.mainloop()
+
+
+
+get_contract_data()
