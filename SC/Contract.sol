@@ -2,22 +2,22 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract BusinessContractV2 {
-    // Datenstruktur für einen Vertrag
+    // Data structure for a contract
     struct Contract {
-        string encryptedContract; // Symmetrisch verschlüsselter Contract
+        string encryptedContract; // Symmetric encrypted contract
         string pubkey1;
         string pubkey2;
-        string signature1; // Signatur 1 angewendet auf verschlüsselten Contract
-        string signature2; // Signatur 2 angewendet auf verschlüsselten Contract
+        string signature1; // Signature 1 applied to encrypted contract
+        string signature2; // Signature 2 applied to encrypted contract
     }
 
-    // Mapping von contractId zu Contract
+    // Mapping from contractId to contract
     mapping (string => Contract) private contracts;
 
-    // Event, das geloggt wird, wenn ein Vertrag gespeichert wird
+    // Event that is logged when a contract is saved
     event ContractStored(string contractId, string encryptedContract, string pubkey1, string pubkey2, string signature1, string signature2);
 
-    // Funktion zum Speichern eines Vertrags
+    // Function to save a contract
     function storeContract(string memory contractId, string memory encryptedContract, string memory pubkey1, string memory pubkey2, string memory signature1, string memory signature2) public {
         Contract memory newContract = Contract({
             encryptedContract: encryptedContract,
@@ -29,11 +29,11 @@ contract BusinessContractV2 {
 
         contracts[contractId] = newContract;
 
-        // Loggt das Ereignis
+        // Logs the event
         emit ContractStored(contractId, encryptedContract, pubkey1, pubkey2, signature1, signature2);
     }
 
-    // Funktion zum Abrufen der Daten eines Vertrags anhand der contractId
+    // Function to retrieve the data of a contract based on the contractId
     function getContract(string memory contractId) public view returns (string memory encryptedContract, string memory pubkey1, string memory pubkey2, string memory signature1, string memory signature2) {
         Contract memory contractData = contracts[contractId];
         return (contractData.encryptedContract, contractData.pubkey1, contractData.pubkey2, contractData.signature1, contractData.signature2);
