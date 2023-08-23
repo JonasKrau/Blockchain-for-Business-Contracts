@@ -16,7 +16,7 @@ def toggle_show_hide(entry_widget, lock_button):
 
 
 def submit_text():
-    # Vertrag aus Datei laden
+    # Load data from file
     file_path = filedialog.askopenfilename(filetypes=[("Textdateien", "*.txt")])
     if not file_path:
         return
