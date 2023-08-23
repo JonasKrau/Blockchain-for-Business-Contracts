@@ -10,28 +10,18 @@ from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
 import os
 
 
-
-
-
-
-
-
 def generate_random_symmetric_key():
     """
-    Generate random symmetric key and return it
+    Generates random symmetric key and return it
     """    
     key_length = 32  # 32 Bytes (256-Bit)
     random_key = os.urandom(key_length)
     return random_key
 
 
-
-
 def encrypt_contract(symmetric_key):
     
-    
-
-    # Vertrag aus Datei laden
+    # load contract from file
     contract_path = "Data/Contract/contract.txt"
     if not os.path.exists(contract_path):
         print("Contract not found.")
@@ -40,33 +30,25 @@ def encrypt_contract(symmetric_key):
     with open(contract_path, 'r', encoding='utf-8') as contract_file:
         contract_data = contract_file.read()
 
-    # Padder für AES-Blockgröße (128-Bit)
+    # Padder for AES-Blocksize (128-Bit)
     padder = sym_padding.PKCS7(128).padder()
     padded_data = padder.update(contract_data.encode('utf-8')) + padder.finalize()
 
-    # Cipher-Objekt erstellen (ECB-Modus)
+    # Create Cipher Object (ECB-Modus)
     cipher = Cipher(algorithms.AES(symmetric_key), modes.ECB(), backend=default_backend())
     encryptor = cipher.encryptor()
 
-    # Daten verschlüsseln
+    # Encrypt Data
     encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
 
-    
     return encrypted_data.hex()
 
  
-
-
-
-
 def sign_contract_party1(encr_contract):
     """
     Get Signature of Party1
     """
-    
- 
-
-    # Private Keys aus Datei laden
+    # Load Private Keys from file
     private_keys_path = "Data/PrivateKeys/PrivateKeys.txt"
     if not os.path.exists(private_keys_path):
         print("Private Keys not found.")
@@ -81,14 +63,14 @@ def sign_contract_party1(encr_contract):
             backend=default_backend()
         )
 
-    # Signieren des Contracts mit dem ersten Private Key
+    # Sign Contract with first Private Key
     signature = private_key.sign(
         encr_contract.encode('utf-8'),
         asym_padding.PSS(mgf=asym_padding.MGF1(hashes.SHA256()), salt_length=asym_padding.PSS.MAX_LENGTH),
         hashes.SHA256()
     )
 
-    # Die finale Signatur ausgeben
+    # return signature
     return signature.hex()
     #print(signature.hex())
 
@@ -98,10 +80,7 @@ def sign_contract_party2(encr_contract):
     """
     Get Signature of Party2
     """
-    
-    
-
-    # Private Keys aus Datei laden
+    # Load Private Key from file
     private_keys_path = "Data/PrivateKeys/PrivateKeys.txt"
     if not os.path.exists(private_keys_path):
         print("Private Keys not found.")
@@ -119,14 +98,14 @@ def sign_contract_party2(encr_contract):
             backend=default_backend()
         )
 
-    # Signieren des Contracts mit dem zweiten Private Key
+    # Sign contract with second Private Key
     signature = private_key.sign(
         encr_contract.encode('utf-8'),
         padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
         hashes.SHA256()
     )
 
-    # Die finale Signatur ausgeben
+    # return Signature
     return signature.hex()
     #print(signature.hex())
 
@@ -170,6 +149,3 @@ def order_data():
     sym_key_hex = sym_key.hex()
 
     display_results(sym_key_hex, encrypted_contract, sig1, sig2, pubkey1, pubkey2)
-    
-
-
