@@ -2,8 +2,9 @@ from web3 import Web3
 import time
 import os
 
+
 def get_wallet_address():
-    #WalletAddresse aus Datei laden
+    # Load wallet address from file
     wallet_address_path = "Data/Wallet/WalletAddress.txt"
     if not os.path.exists(wallet_address_path):
         print("Contract not found.")
@@ -16,7 +17,7 @@ def get_wallet_address():
 
 
 def get_wallet_private_key():
-    #WalletPrivateKey aus Datei laden
+    # Load WalletPrivateKey from file
     wallet_key_path = "Data/Wallet/WalletPrivateKey.txt"
     if not os.path.exists(wallet_key_path):
         print("Contract not found.")
@@ -28,9 +29,8 @@ def get_wallet_private_key():
     return contract_data
 
 
-
 def delete_files():
-    #Hier werden die ganzen/gehimen Daten gelöscht
+    #The whole secret data will be deleted
     files_to_delete = [
         "Data/Contract/contract.txt",
         "Data/PrivateKeys/PrivateKeys.txt",
@@ -45,8 +45,6 @@ def delete_files():
             print(f"File {file_path} has been deleted.")
         else:
             print(f"File {file_path} does not exist.")
-
-
 
 
 def write_in_Blockchain(contract_id, encrypted_contract_hex, sig1, sig2, pubkey1, pubkey2):
@@ -98,10 +96,6 @@ def write_in_Blockchain(contract_id, encrypted_contract_hex, sig1, sig2, pubkey1
 	}
 
 
-
-
-
-
     gas = web3.eth.estimate_gas(txn_dict)
     txn_dict.update({'gas': gas})
 
@@ -119,6 +113,5 @@ def write_in_Blockchain(contract_id, encrypted_contract_hex, sig1, sig2, pubkey1
         print(end - start)
     else:
         print("Failed to write")
-
 
     delete_files()
