@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding as sym_padding
 import DisplayAll
 
+
 def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signature2, sym_key):
     print("Retrieved Contract Data")
     print("---------------------------------------------------------------------------\n\n")
@@ -17,11 +18,11 @@ def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signat
     print("\nSignature (Party 2):\n", signature2)
 
     try:
-        # Lade die öffentlichen Schlüssel
+        # Load Public Keys
         public_key1 = load_pem_public_key(pubkey1.encode(), backend=default_backend())
         public_key2 = load_pem_public_key(pubkey2.encode(), backend=default_backend())
 
-        # Überprüfe die erste Signatur
+        # Verify first signature
         public_key1.verify(
             bytes.fromhex(signature1),
             encrypted_contract.encode('utf-8'),
@@ -29,7 +30,7 @@ def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signat
             hashes.SHA256()
         )
 
-        # Überprüfe die zweite Signatur
+        # Verify second signature
         public_key2.verify(
             bytes.fromhex(signature2),
             encrypted_contract.encode('utf-8'),
@@ -40,24 +41,24 @@ def decrypt_verify_data(encrypted_contract, pubkey1, pubkey2, signature1, signat
         print("---------------------------------------------------------------------------")
         print("\nSignature verification successful\n")
 
-        # Umwandeln des symmetrischen Schlüssels in bytes
+        # Convert the symmetric key into bytes
         symmetric_key_bytes = bytes.fromhex(sym_key)
 
-        # Umwandeln des verschlüsselten Vertrags in bytes
+        # Convert the encrypted contract into bytes
         encrypted_contract_bytes = bytes.fromhex(encrypted_contract)
 
-        # Cipher-Objekt erstellen (ECB-Modus)
+        # Create Cipher Object (ECB-Modus)
         cipher = Cipher(algorithms.AES(symmetric_key_bytes), modes.ECB(), backend=default_backend())
         decryptor = cipher.decryptor()
 
-        # Daten entschlüsseln
+        # Decrypt data
         decrypted_data_padded = decryptor.update(encrypted_contract_bytes) + decryptor.finalize()
 
-        # Entfernen des Paddings (PKCS7)
+        # Delete Paddings (PKCS7)
         unpadder = sym_padding.PKCS7(128).unpadder()
         decrypted_data = unpadder.update(decrypted_data_padded) + unpadder.finalize()
 
-        # Decodierte Vertragsdaten ausgeben
+        # Print Decoded contract data
         print("\nDecrypted Contract:\n", decrypted_data.decode('utf-8'))
         DisplayAll.display_contract(decrypted_data.decode('utf-8'))
 
