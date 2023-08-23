@@ -3,7 +3,6 @@ import tkinter as tk
 import DecryptVerify
 
 
-
 def get_contract_data():
 	
     contract_id = contract_id_entry.get()
@@ -19,7 +18,7 @@ contract_address = Web3.to_checksum_address(contract_address)
 contract_abi = [{"anonymous":False,"inputs":[{"indexed":False,"internalType":"string","name":"contractId","type":"string"},{"indexed":False,"internalType":"string","name":"encryptedContract","type":"string"},{"indexed":False,"internalType":"string","name":"pubkey1","type":"string"},{"indexed":False,"internalType":"string","name":"pubkey2","type":"string"},{"indexed":False,"internalType":"string","name":"signature1","type":"string"},{"indexed":False,"internalType":"string","name":"signature2","type":"string"}],"name":"ContractStored","type":"event"},{"inputs":[{"internalType":"string","name":"contractId","type":"string"}],"name":"getContract","outputs":[{"internalType":"string","name":"encryptedContract","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"},{"internalType":"string","name":"signature1","type":"string"},{"internalType":"string","name":"signature2","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"contractId","type":"string"},{"internalType":"string","name":"encryptedContract","type":"string"},{"internalType":"string","name":"pubkey1","type":"string"},{"internalType":"string","name":"pubkey2","type":"string"},{"internalType":"string","name":"signature1","type":"string"},{"internalType":"string","name":"signature2","type":"string"}],"name":"storeContract","outputs":[],"stateMutability":"nonpayable","type":"function"}]
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
-# GUI erstellen
+# Create Gui
 root = tk.Tk()
 root.option_add('*Font', 'Helvetica 20 bold')
 root.title("Get Contract Data")
@@ -41,7 +40,6 @@ get_contract_data_button = tk.Button(root, text="Get Contract Data", command=get
 get_contract_data_button.pack()
 
 root.mainloop()
-
 
 
 get_contract_data()
