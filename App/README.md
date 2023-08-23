@@ -11,7 +11,7 @@ This document provides a step-by-step guide to creating, signing, encrypting, an
 - **Asymmetric Key Pairs**: Both parties must generate an asymmetric key pair (e.g., using [this tool](https://travistidwell.com/jsencrypt/demo/)). Normally, the Public Keys would be contained in X.509 certificates. However, for simplicity in this example, the key pairs are generated using a random generator.
   - Example key pairs in PEM format are provided in the file `Example Data/Keys (example).txt`.
 - **Sepolia Wallet**: One party must have a wallet containing Sepolia Ether.
-- **Infura API Key**: Create an Infura Ethereum Sepolia API Key [here](https://www.infura.io/?utm_source=google&utm_medium=paidsearch&utm_campaign=Infura-Search-EMEA-en-Brand-PHR&utm_term=infura%20api%20key&gad=1&gclid=CjwKCAjw_uGmBhBREiwAeOfsd0UkKvcyfHxwlUv3cBLiU9YfEGInKOOTjB3kNbFmkmgwQTHmbMCZdxoCZXAQAvD_BwE), and paste it into file `App/WriteBlockchain.py` of this repo in line 53 where the comment `# Paste here your infura API Key!!!` is written.
+- **Infura API Key**: Create an Infura Ethereum Sepolia API Key [here](https://www.infura.io/?utm_source=google&utm_medium=paidsearch&utm_campaign=Infura-Search-EMEA-en-Brand-PHR&utm_term=infura%20api%20key&gad=1&gclid=CjwKCAjw_uGmBhBREiwAeOfsd0UkKvcyfHxwlUv3cBLiU9YfEGInKOOTjB3kNbFmkmgwQTHmbMCZdxoCZXAQAvD_BwE), and paste it into file `App/WriteBlockchain.py` of this repo in line 51 where the comment `# Paste here your infura API Key!!!` is written.
 
 ## Process
 
