@@ -6,7 +6,7 @@ This tool allows you to download a stored encrypted contract with all its detail
 
 ## Pre-conditions
 
-- **Infura API Key**: Paste the previously created Infura Ethereum Sepolia API Key (as described in [App/README.md](../App/README.md)) into the file `Lookup/lookup.py` of this repository on line 16 where the comment `# Paste here your infura API Key!!!` is written.
+- **Infura API Key**: Paste the previously created Infura Ethereum Sepolia API Key (as described in [App/README.md](../App/README.md)) into the file `Lookup/lookup.py` of this repository on line 15 where the comment `# Paste here your infura API Key!!!` is written.
 
 ## Process
 
