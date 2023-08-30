@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Blockchain for Business Contracts** project aims to revolutionize the way business contracts are signed and stored by leveraging the power of blockchain technology. Our web application provides a secure, transparent, and decentralized platform for signing and storing business contracts. With the immutability and distributed nature of the blockchain, we ensure the integrity and authenticity of contracts, making them tamper-proof and auditable. This project is developed and tested on Ubuntu, and it requires Python to be installed on your system.
+The **Blockchain for Business Contracts** project aims to optimize the way business contracts are signed and stored by leveraging the power of blockchain technology. Our web application provides a secure, transparent, and decentralized platform for signing and storing business contracts. With the immutability and distributed nature of the blockchain, we ensure the integrity and authenticity of contracts, making them tamper-proof and auditable. This project is developed and tested on Ubuntu, and it requires Python to be installed on your system.
 
 ## Key Features
 
