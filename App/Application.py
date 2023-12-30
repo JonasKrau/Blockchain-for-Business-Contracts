@@ -98,7 +98,7 @@ button_text_color = 'white'
 style = ttk.Style()
 style.configure('TLabel', font=('Helvetica', 20, 'bold'), foreground=text_color, background=bg_color, wraplength=600, justify='left')
 style.configure('TEntry', font=('Helvetica', 20, 'bold'), background=bg_color, width=50, show="*")  # Eingabe mit Verbergen
-style.map('TEntry', foreground=[('focus', text_color)])  # Textfarbe für Eingabe mit Focus (ohne Placeholder)
+style.map('TEntry', foreground=[('focus', text_color)])  
 
 # Party 1 private key label
 private_key_label_1 = ttk.Label(root, text="Private Key (Party 1):")
