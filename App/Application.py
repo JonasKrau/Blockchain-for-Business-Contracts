@@ -55,7 +55,7 @@ def submit_text():
 
     keys_filename = os.path.join(keys_directory, 'PrivateKeys.txt')
     with open(keys_filename, 'w', encoding='utf-8') as keys_file:
-        keys_file.write(private_key_1 + "\n\n" + private_key_2)  # Hier werden die beiden privaten Schlüssel mit zwei Leerzeilen getrennt
+        keys_file.write(private_key_1 + "\n\n" + private_key_2)  # the two private keys
 
     # Save public keys to file
     public_keys_directory = "Data/PublicKeys"
@@ -64,7 +64,7 @@ def submit_text():
 
     public_keys_filename = os.path.join(public_keys_directory, 'PublicKeys.txt')
     with open(public_keys_filename, 'w', encoding='utf-8') as public_keys_file:
-        public_keys_file.write(public_key_1 + "\n\n" + public_key_2)  # Hier werden die beiden öffentlichen Schlüssel mit zwei Leerzeilen getrennt
+        public_keys_file.write(public_key_1 + "\n\n" + public_key_2)  # the two public keys
 
      
     # Save wallet address to file
