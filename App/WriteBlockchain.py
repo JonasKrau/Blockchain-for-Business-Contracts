@@ -87,12 +87,12 @@ def write_in_Blockchain(contract_id, encrypted_contract_hex, sig1, sig2, pubkey1
     gas_price = web3.eth.gas_price
 
     txn_dict = {
-		'chainId': 11155111, # Anpassen, wenn du ein anderes Netzwerk verwendest
+		'chainId': 11155111, 
 		'nonce': nonce,
 		'gas': 2000000,
-		'gasPrice': gas_price,  # Gaspreis hinzufügen
+		'gasPrice': gas_price,  
 		'to': contract_address,
-		'data': contract.encodeABI(fn_name="storeContract", args=[str(contract_id), encrypted_contract_hex, pubkey1, pubkey2, sig1, sig2]), # Achte darauf, dass du die richtigen Parameter hier hinzufügst
+		'data': contract.encodeABI(fn_name="storeContract", args=[str(contract_id), encrypted_contract_hex, pubkey1, pubkey2, sig1, sig2]), 
 	}
 
 
