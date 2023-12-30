@@ -89,10 +89,10 @@ root.option_add('*Font', 'Helvetica 20 bold')
 root.title("Blockchain for Business Contracts: Start")
 
 # Define colors
-bg_color = '#f9f9f9'  # Hintergrundfarbe
-text_color = '#333333'  # Textfarbe
-button_color = '#4CAF50'  # Button-Farbe
-button_text_color = 'white'  # Button-Textfarbe
+bg_color = '#f9f9f9'  
+text_color = '#333333'  
+button_color = '#4CAF50'  
+button_text_color = 'white'
 
 # Define styles for the design
 style = ttk.Style()
